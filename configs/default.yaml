@@ -1,0 +1,41 @@
+seed: 42
+device: cuda
+
+data:
+  train_manifest: data/train.jsonl
+  val_manifest: data/val.jsonl
+  image_size: 256
+  max_words: 77
+  num_workers: 4
+
+model:
+  clip_model_name: openai/clip-vit-base-patch32
+  text_hidden_dim: 256
+  base_channels: 64
+  ca_dim: 256
+  attn_heads: 4
+  num_bottleneck_blocks: 2
+
+train:
+  epochs: 100
+  batch_size: 8
+  lr_g: 0.0001
+  lr_d: 0.0001
+  betas: [0.5, 0.999]
+  out_dir: runs/linguapaint
+  save_every: 5
+  log_every: 20
+  grad_clip: 1.0
+  ema_decay: 0.999
+  cfg_dropout: 0.1
+
+loss:
+  lambda_kl: 0.01
+  lambda_app: 10.0
+  lambda_lpips: 1.0
+  lambda_damsm: 0.5
+  lambda_adv: 0.1
+  lpips_net: vgg
+
+inference:
+  guidance_scale: 3.0
